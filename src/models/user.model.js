@@ -56,10 +56,12 @@ userSchema.pre("save", async function (next) {
   this.password = bcrypt.hash(this.password, 10);
   next();
 });
+
 //for matching the user password and encrypt pass----
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
+
 //to generate jwt token
 userSchema.methods.gerenrateAccessToken = function () {
   return jwt.sign(
@@ -75,6 +77,7 @@ userSchema.methods.gerenrateAccessToken = function () {
     }
   );
 };
+// to generate refresh token
 userSchema.methods.gerenrateRefreshToken = function () {
   return jwt.sign(
     {
